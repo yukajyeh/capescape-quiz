@@ -1,12 +1,15 @@
 <template>
 	<main class="app">
-		<h1>Techival CapEscape Quiz</h1>
+		<h1>🦾Techival CapEscape Quiz🦾</h1>
 
-		<!-- <section class="loading">
+		<section class="loading" v-if="!quizStarted">
 			<p>You ready to start?</p>
-		</section> -->
+			<div class="bbox">
+				<button @click="startQuiz">Let's GO!</button>
+			</div>
+		</section>
 
-		<section class="quiz" v-if="!quizCompleted">
+		<section class="quiz" v-if="!quizCompleted" v-show="quizStarted">
 			<div class="quiz-info">
 				<span class="question">{{ getCurrentQuestion.question }}</span>
 				<span class="score">Score {{ score }}/{{ questions.length }}</span>
@@ -49,6 +52,7 @@
 		<section v-else>
 			<h2>You made it!</h2>
 			<p>Your score is {{ score }}/{{ questions.length }}</p>
+			<h3 v-if="score > 6">The number to your lock is ***</h3>
 			<div class="bbox">
 				<button @click="resetQuiz">Restart</button>
 			</div>
@@ -102,7 +106,7 @@ const questions = ref([
 	selected: null
    },
    {
-	   question: "Which technology was named after the nickname of Denmark and Norway's 10th century king, Harald Gormsson?",
+	   question: "Which technology was named after the nickname of Denmark & Norway's 10th century king, Harald Gormsson?",
 		answer: 1,
 		options: [
 			'EMAIL',
@@ -183,6 +187,7 @@ const questions = ref([
 	}
 ])
 
+const quizStarted = ref(false)
 const quizCompleted = ref(false)
 const currentQuestion = ref(0)
 const score = computed(() => {
@@ -215,7 +220,12 @@ const nextQuestion = () => {
 	quizCompleted.value = true
 }
 
+const startQuiz = () => {
+	quizStarted.value = true
+}
+
 const resetQuiz = () => {
+	quizStarted.value = false
 	quizCompleted.value = false;
 	currentQuestion.value = 0;
 	questions.value.map((q) => {
@@ -249,7 +259,7 @@ body {
 }
 
 h1 {
-	font-size: 2rem;
+	font-size: 2.5rem;
 	margin-bottom: 2rem;
 }
 
@@ -259,9 +269,15 @@ h2 {
 	text-align: center;
 }
 
+h3 {
+	font-size: 1.5rem;
+	margin-top: 0.5rem;
+	text-align: center;
+}
+
 p {
 	color: #8F8F8F;
-	font-size: 1.5rem;
+	font-size: 1rem;
 	text-align: center;
 }
 
@@ -336,7 +352,7 @@ button {
 	border: none;
 	cursor: pointer;
 	padding: 1rem;
-	margin: 1rem;
+	margin: 1.5rem;
 	background-color: #2cce7d;
 	color: #2d213f;
 	font-weight: 700;
