@@ -1,9 +1,16 @@
 <template>
 	<main class="app">
-		<h1>🦾Techival CapEscape Quiz🦾</h1>
-
+		<h1>🦾 CapEscape Quiz 🦾</h1>
 		<section class="loading" v-if="!quizStarted">
-			<p>You ready to start?</p>
+			<p>I see you found the tiny ducklings! For this round, you will be answering
+			<span style="color: rgb(240, 230, 140);">7 test automation related questions.</span></p>
+			<br>
+			<p>In order for you to retrieve the number for your lock, you will need to pass
+			<span style="color: rgb(240, 230, 140);">AT LEAST 3 questions</span>
+			. For each question, you have
+			<span style="color: rgb(240, 230, 140);">only one shot at it. </span>So only select IF YOU ARE SURE!</p>
+			<br>
+			<p>Don't worry, you can re-do the whole quiz, but time is not your friend 🙃 So, are you ready to start?</p>
 			<div class="bbox">
 				<button @click="startQuiz">Let's GO!</button>
 			</div>
@@ -50,14 +57,14 @@
 		</section>
 
 		<section v-else>
-			<h2>You made it!</h2>
-			<p>Your score is {{ score }}/{{ questions.length }}</p>
-			<h3 v-if="score > 6">The number to your lock is ***</h3>
+			<h2>You made it to the end!</h2>
+			<h2>Your score is {{ score }}/{{ questions.length }}</h2>
+			<h2 class ="pwd" v-if="score >= 3">D = 2 😉</h2>
 			<div class="bbox">
-				<button @click="resetQuiz">Restart</button>
+				<h2 class ="pwd" v-if="score < 3">Too bad, let's try again 😵‍💫</h2>
+				<button v-if="score < 3" @click="resetQuiz">Restart</button>
 			</div>
 		</section>
-		<footer><img src='../public/capgemini-logo.png' alt='capgemini-logo' class='logo' /></footer>
 	</main>
 </template>
 
@@ -66,122 +73,79 @@ import { ref, computed } from 'vue'
 
 const questions = ref([
   {
-	question: "What does CPU stand for?",
-	answer: 0,
-	options: [
-		'Central Processing Unit',
-		'Community Programming Utility',
-		'Common Popular Universe'
-	],
-	selected: null
-  },
-  {
-	question: "Where was the world wide web invented?",
-	answer: 2,
-	options: [
-		'United States',
-		'Germany',
-		'Switzerland'
-	],
-	selected: null
-  },
-  {
-	question: "Who is the organizer of Techival?",
+	question: "1) Which of the following is a commonly used programming language for test automation?",
 	answer: 1,
 	options: [
-		'Yahoo',
-		'Capgemini',
-		'Capricon'
+		'HTML',
+		'Java',
+		'XML',
+		'CSS'
 	],
 	selected: null
   },
-  {
-	question: "Which of these is NOT an early computer?",
-	answer: 2,
-	options: [
-		'ENIAC',
-		'UNIVAC',
-		'NASA'
-	],
-	selected: null
-   },
    {
-	   question: "Which technology was named after the nickname of Denmark & Norway's 10th century king, Harald Gormsson?",
-		answer: 1,
-		options: [
-			'EMAIL',
-			'Bluetooth',
-			'APPLE'
-		],
-		selected: null
-	},
-	{
-		question: "Which company developed the Mac Operating System?",
+	   question: "2) Which one of these is a valid CSS selector?",
 		answer: 0,
 		options: [
-			'Apple',
-			'IBM',
-			'Samsung'
+			'#search-toggle-btn',
+			"//button[@id='search-toggle-btn']",
+			'id=search-toggle-btn',
+			'class=search-toggle-btn'
 		],
 		selected: null
 	},
 	{
-		question: "Which of the following is NOT a programming language?",
+		question: "3) When is it impossible to use test automation?",
 		answer: 2,
 		options: [
-			'Javascript',
+			'When it\'s monday morning.',
+			'When the functionality only works on mobile devices.',
+			'When the functionality is protected by a captcha.',
+			'When the functionality does not have a user interface'
+		],
+		selected: null
+	},
+	{
+		question: "4) Which of the following is the most efficient way to locate the 'Search' button element on a web page using Selenium?",
+		answer: 2,
+		options: [
+			'By class name',
+			'By tag name',
+			'By CSS selector',
+			'By XPath expression'
+		],
+		selected: null
+	},
+	{
+		question: "5) Which of the following languages is Robot Framework written in?",
+		answer: 0,
+		options: [
+			'Python',
 			'Java',
-			'J.A.R.V.I.S'
+			'C++',
+			'Ruby'
 		],
 		selected: null
 	},
 	{
-		question: "What does TL:DR stand for?",
-		answer: 0,
+		question: "6) Which of the following test automation tools can be used as a test library in Robot Framework? ",
+		answer: 3,
 		options: [
-			"Too Long, Didn't read",
-			"Talk Later, Don't bother",
-			'Take left, down right'
+			'Selenium',
+			'Appium',
+			'JUnit',
+			'All of the above'
 		],
 		selected: null
 	},
 	{
-		question: "What happens if a CD spins too fast?",
+		question: "7) Which of the following programming languages is not supported by Playwright?",
 		answer: 2,
 		options: [
-			"It might seperate the disc's layers",
-			"It might melt",
-			'It might explode'
-		],
-		selected: null
-	},
-	{
-		question: "What is the name of this escape room?",
-		answer: 0,
-		options: [
-			"CapEscape",
-			"Escape Capgemini",
-			'Techivalscape'
-		],
-		selected: null
-	},
-	{
-		question: "What is the origin of the word 'spam' in the context of email spam?",
-		answer: 1,
-		options: [
-			"Poor developers sick of eating the same meal",
-			"A Monty Python skit from the 70s",
-			"It's an acronym for 'spontaneously persistent advertising message'"
-		],
-		selected: null
-	},
-	{
-		question: "Before becoming widely recognized the main character of Super Mario Bros., what was Mario named?",
-		answer: 2,
-		options: [
-			"Bouncing Carpenter",
-			"Hammer Jump",
-			"Jumpman"
+			'JavaScript',
+			'Python',
+			'Java',
+			'TypeScript'
 		],
 		selected: null
 	}
@@ -237,7 +201,6 @@ const resetQuiz = () => {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@300;400&display=swap');
-
 * {
 	margin: 0;
 	padding: 0;
@@ -246,7 +209,7 @@ const resetQuiz = () => {
 }
 
 body {
-	background-color: #145DA0;
+	background-color: #2E8BC0;
 	color: #FFF;
 }
 
@@ -276,13 +239,31 @@ h3 {
 }
 
 p {
-	color: #8F8F8F;
+	color: #fff;
 	font-size: 1rem;
 	text-align: center;
 }
 
+.pwd {
+	color: rgb(240, 230, 140);
+	font-size: 2rem;
+	text-align: center;
+}
+
+.loading {
+	background-color: #145DA0;
+    padding: 1rem;
+    width: 100%;
+    max-width: 640px;
+}
+
+.loading p {
+    font-size: 1.5rem;
+    margin: 2px;
+}
+
 .quiz {
-	background-color: #2E8BC0;
+	background-color: #145DA0;
 	padding: 1rem;
 	width: 100%;
 	max-width: 640px;
@@ -299,9 +280,12 @@ p {
 	font-size: 1.25rem;
 }
 
-.quiz-info.score {
-	color: #FFF;
-	font-size: 1.25rem;
+.score {
+	margin:1px;
+	border-radius: 12px;
+	border: 1px solid #FFF;
+	text-align:center;
+	padding:5px;
 }
 
 .options {
@@ -343,7 +327,8 @@ p {
 
 .bbox {
 	display:flex;
-	justify-content: center;
+	justify-content:center;
+	flex-direction: column;
 	align-items: center;
 }
 
@@ -363,14 +348,6 @@ button {
 
 button:disabled {
 	opacity: 0.5;
-}
-
-footer {
-	position: absolute;
-	bottom: 0;
-	top:50;
-	left:50;
-	margin-bottom: 1rem;
 }
 
 .logo {
